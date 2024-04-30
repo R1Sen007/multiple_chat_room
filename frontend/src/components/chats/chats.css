@@ -1,0 +1,6 @@
+.container.chats__container {
+    /* width: 58%; */
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap: 0.01rem;
+}
