@@ -1,0 +1,1 @@
+MAX_CHAT_NAME = 20

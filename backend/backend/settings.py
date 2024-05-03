@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
 
 # Application definition
 
@@ -36,17 +40,21 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'corsheaders',
     'daphne',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
     'channels',
+    'api.apps.ApiConfig',
     'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

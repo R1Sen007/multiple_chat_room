@@ -1,12 +1,15 @@
 import React from 'react';
-import { Fragment, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import useWebSocket from 'react-use-websocket';
 
 import './list.css'
 
+import { UserContext } from '../../../contexts'
 
-const WS_URL = window.location.href.replace('http://', 'ws://').replace('https://', 'wss://').replace(':3000', ':8000') + 'ws/' + 'chat/' + 'testroom/';
+
+// const WS_URL = window.location.href.replace('http://', 'ws://').replace('https://', 'wss://').replace(':3000', ':8000') + 'ws/' + 'chat/' + 'testroom/';
+const WS_URL = `ws://localhost:8000/ws/chat/testroom/?`;
 
 
 
@@ -14,13 +17,12 @@ const List = () => {
     const [loading, setLoading] = useState()
     const [socketUrl, setSocketUrl] = useState(null);
 
+    const userContext = useContext(UserContext)
+
     const sendHendler = e => {
         setLoading(true);
 
-        setSocketUrl(WS_URL)
-
-        // console.log(socketUrl)
-        
+        setSocketUrl(WS_URL + userContext.id)
     }
     const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
@@ -47,7 +49,6 @@ const List = () => {
             const message = JSON.stringify({
                 'message': messageInputDom.value
             });
-            console.log(message)
             sendMessage(message)
             messageInputDom.value = '';
         }

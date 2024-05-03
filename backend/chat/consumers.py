@@ -1,55 +1,53 @@
 import json
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class ChatConsumer(WebsocketConsumer):
-    def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        if self.scope['user'].is_anonymous:
+            self.close(reason='Not authenticated user')
+        else:
+            self.room_name = self.scope['url_route']['kwargs']['room_name']
+            self.room_group_name = 'chat_%s' % self.room_name
+            await self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name
+            )
+            await self.accept()
 
-        # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-        self.accept()
-
-    def disconnect(self, close_code):
-        # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    # Receive message from WebSocket
-    def receive(self, text_data):
-        # print('----------')
-        # print(text_data)
-        # print(type(text_data))
-        # print(self.scope['user'])
-
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
+    async def disconnect(self, close_code):
+        message = f'----user[{self.scope["user"].username}] left the chat----'
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'sender': '*SYSTEM*',
+            }
+        )
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        sender = self.scope['user'].username
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message,
+                'sender': sender,
             }
         )
 
-    # Receive message from room group
-    def chat_message(self, event):
-        username = event.get('username', 'anonymous') # anonymous can't be here
-        # print(username)
+    async def chat_message(self, event):
+        username = event['sender']
         message = event['message']
-
-        # Send message to WebSocket
-        self.send(text_data=json.dumps({
+        await self.send(text_data=json.dumps({
             'username': username,
             'message': message
         }))
