@@ -67,53 +67,43 @@ class Api {
         }
       ).then(this.checkResponse)
     }
-  
-    // changePassword ({ current_password, new_password }) {
-    //   const token = localStorage.getItem('token')
-    //   return fetch(
-    //     `/api/users/set_password/`,
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         ...this._headers,
-    //         'authorization': `Token ${token}`
-    //       },
-    //       body: JSON.stringify({ current_password, new_password })
-    //     }
-    //   ).then(this.checkResponse)
-    // }
-  
-  
-    // getUser ({ id }) {
-    //   const token = localStorage.getItem('token')
-    //   return fetch(
-    //     `/api/users/${id}/`,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         ...this._headers,
-    //         'authorization': `Token ${token}`
-    //       }
-    //     }
-    //   ).then(this.checkResponse)
-    // }
-  
-    // getUsers ({
-    //   page = 1,
-    //   limit = 6
-    // }) {
-    //   const token = localStorage.getItem('token')
-    //   return fetch(
-    //     `/api/users/?page=${page}&limit=${limit}`,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         ...this._headers,
-    //         'authorization': `Token ${token}`
-    //       }
-    //     }
-    //   ).then(this.checkResponse)
-    // }
+
+    getRoomsData ({
+        page = 1,
+        limit = 6,
+    }={}) {
+        const token = localStorage.getItem('token')
+        return fetch(
+            this._url + `/api/rooms/?page=${page}&limit=${limit}`,
+            {
+            method: 'GET',
+            headers: {
+                ...this._headers,
+                'authorization': `Token ${token}`
+            }
+            }
+        ).then(this.checkResponse)
+    }
+
+    getMessagesData ({
+        page = 1,
+        limit = 20,
+        offset = 0,
+        room,
+    }={}) {
+        const token = localStorage.getItem('token')
+        return fetch(
+            this._url + `/api/messages/?page=${page}&limit=${limit}&offset=${offset}&room=${room}`,
+            {
+            method: 'GET',
+            headers: {
+                ...this._headers,
+                'authorization': `Token ${token}`
+            }
+            }
+        ).then(this.checkResponse)
+    }
+
   }
   
 //   export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })

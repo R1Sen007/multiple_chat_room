@@ -4,4 +4,11 @@
 
     border: 2px solid var(--color-primary-variant);
     color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    row-gap: 1rem;
+    /* padding: 0; */
+
 }
