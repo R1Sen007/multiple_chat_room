@@ -16,7 +16,8 @@ class Api {
   
     signin ({ username, password }) {
       return fetch(
-        this._url + '/api/auth/token/login',
+        // this._url + '/api/auth/token/login',
+        '/api/auth/token/login',
         {
           method: 'POST',
           headers: this._headers,
@@ -30,7 +31,8 @@ class Api {
     signout () {
       const token = localStorage.getItem('token')
       return fetch(
-        this._url + '/api/auth/token/logout/',
+        // this._url + '/api/auth/token/logout/',
+        '/api/auth/token/logout/',
         {
           method: 'POST',
           headers: {
@@ -43,7 +45,8 @@ class Api {
   
     signup ({ username, password }) {
       return fetch(
-        this._url + `/api/auth/users/`,
+        // this._url + `/api/auth/users/`,
+        `/api/auth/users/`,
         {
           method: 'POST',
           headers: this._headers,
@@ -57,7 +60,8 @@ class Api {
     getUserData () {
       const token = localStorage.getItem('token')
       return fetch(
-        this._url + `/api/auth/users/me/`,
+        // this._url + `/api/auth/users/me/`,
+        `/api/auth/users/me/`,
         {
           method: 'GET',
           headers: {
@@ -74,7 +78,8 @@ class Api {
     }={}) {
         const token = localStorage.getItem('token')
         return fetch(
-            this._url + `/api/rooms/?page=${page}&limit=${limit}`,
+            // this._url + `/api/rooms/?page=${page}&limit=${limit}`,
+            `/api/rooms/?page=${page}&limit=${limit}`,
             {
             method: 'GET',
             headers: {
@@ -93,7 +98,8 @@ class Api {
     }={}) {
         const token = localStorage.getItem('token')
         return fetch(
-            this._url + `/api/messages/?page=${page}&limit=${limit}&offset=${offset}&room=${room}`,
+            // this._url + `/api/messages/?page=${page}&limit=${limit}&offset=${offset}&room=${room}`,
+            `/api/messages/?page=${page}&limit=${limit}&offset=${offset}&room=${room}`,
             {
             method: 'GET',
             headers: {
@@ -106,6 +112,6 @@ class Api {
 
   }
   
-//   export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })
-  export default new Api('http://localhost:8000', { 'content-type': 'application/json' })
+  export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })
+//   export default new Api('http://localhost:8000', { 'content-type': 'application/json' })
   

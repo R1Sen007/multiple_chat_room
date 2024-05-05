@@ -13,7 +13,6 @@ const Chat = ({
     sendMessage,
     lastMessage,
     readyState,
-
     getWebSocket,
     currentRoom,
 }) => {
@@ -40,7 +39,6 @@ const Chat = ({
             .then(res => {
                 const { results, count } = res
                 setMessages(results)
-                // return results
             })
     }
 
@@ -69,16 +67,10 @@ const Chat = ({
                 offset:messagesOffset,
                 room:currentRoom,
             })
-            // console.log(getWebSocket().onmessage)
+
             getWebSocket().onmessage = (e) => {
                 const msg = JSON.parse(e.data);
                 printMessage(msg.username, msg.time_mark, msg.message)
-                // const time_msg = new Date(msg.time_mark)
-                // const hours = time_msg.getHours() < 10 ? `0${time_msg.getHours()}` : time_msg.getHours()
-                // const minutes = time_msg.getMinutes() < 10 ? `0${time_msg.getMinutes()}` : time_msg.getMinutes()
-
-                // textArea.current.value += (`\n${msg.username}[${hours}:${minutes}]: ${msg.message}` + '\n');
-                // textArea.current.scrollTop = textArea.current.scrollHeight;
             }
         }
     }, [readyState])
@@ -86,21 +78,13 @@ const Chat = ({
     useEffect(_ => {
         textArea.current.value = ``
         
-        messages.toReversed().map(message => {
-            // const msg = JSON.parse(message);
+        messages.reverse().map(message => {
             printMessage(message.sender.username, message.pub_date, message.text)
-            // const time_msg = new Date(message.pub_date)
-            // const hours = time_msg.getHours() < 10 ? `0${time_msg.getHours()}` : time_msg.getHours()
-            // const minutes = time_msg.getMinutes() < 10 ? `0${time_msg.getMinutes()}` : time_msg.getMinutes()
-
-            // textArea.current.value += (`\n${message.sender.username}[${hours}:${minutes}]: ${message.text}` + '\n');
-            // textArea.current.scrollTop = textArea.current.scrollHeight;
         })
     }, [messages]);
 
     return (
         <div className="container chat__container">
-            {/* <h5>CHAT</h5> */}
             <textarea className ="chat__textarea" name="chat" id="chat-log" ref={textArea} cols="30" rows="10"/>
             {(readyState === ReadyState.OPEN)&&
                 <nav className='chat_nav'>

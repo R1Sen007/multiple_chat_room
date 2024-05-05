@@ -15,13 +15,13 @@ function NotAutorizedNav() {
       }
 
     useEffect(()=>{
-        setIsRegister(window.location.href.indexOf('/register') != -1)
+        setIsRegister(window.location.href.indexOf('/register') !== -1)
     })
 
     return (
         <nav>
             <p>Unauthorized user</p>
-            <a onClick={routeChange} className="btn btn-primary">{isRegister ? `LogIn`: `Register`}</a>
+            <button onClick={routeChange} className="btn btn-primary">{isRegister ? `LogIn`: `Register`}</button>
         </nav>
     )
 }

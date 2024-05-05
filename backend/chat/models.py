@@ -25,6 +25,8 @@ class Room(models.Model):
 
 
 class Message(models.Model):
+    """Message`s model."""
+
     text = models.TextField(
         blank=True,
         null=True,

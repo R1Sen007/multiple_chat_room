@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom'
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 
 import api from './api'
 
@@ -12,12 +12,12 @@ import Register from './pages/register/Register'
 import {ProtectedRoute } from './components'
 import {AuthContext, UserContext} from './contexts'
 
+
 function App() {
   const [ loggedIn, setLoggedIn ] = useState(null)
   const [ user, setUser ] = useState({})
 
   const navigate = useNavigate();
-
 
   const registration = ({
     username,
@@ -35,7 +35,6 @@ function App() {
         setLoggedIn(false)
       })
   }
-
 
   const authorization = ({
     username, password
@@ -82,7 +81,6 @@ function App() {
       })
   }
 
-
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -118,12 +116,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* <Register/> */}
             <Route exact path='/register' element={<Register onRegister={registration} />}/>
-
             <Route exact path='/login' element={<Login onLogin={authorization} />}/>
-
             <Route path='/' element={loggedIn ? <Navigate to='/chats' replace/> : <Navigate to='/login' replace/>} />
           </Routes>
         </div>

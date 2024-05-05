@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 
 
 export default function useMessages () {
@@ -8,7 +7,6 @@ export default function useMessages () {
     const [ messagesLimit, setMessagesLimit ] = useState(50)
     const [ messagesOffset, setMessagesOffset ] = useState(0)
 
-
     return {
         messages,
         setMessages,
@@ -16,5 +14,7 @@ export default function useMessages () {
         setMessagesPage,
         messagesLimit,
         setMessagesLimit,
+        messagesOffset,
+        setMessagesOffset,
       }
 }

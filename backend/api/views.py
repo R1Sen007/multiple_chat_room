@@ -18,7 +18,7 @@ class RoomReadOnlyModelViewSet(ReadOnlyModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     pagination_class = LimitOffsetPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class MessageReadOnlyModelViewSet(ReadOnlyModelViewSet):
@@ -27,4 +27,4 @@ class MessageReadOnlyModelViewSet(ReadOnlyModelViewSet):
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = MessageFilter
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
